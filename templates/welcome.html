@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenido</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        .welcome-message {
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            border-left: 5px solid #0078d4;
+        }
+        .logout-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #f44336;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .logout-button:hover {
+            background-color: #d32f2f;
+        }
+        .debug-info {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #f5f5f5;
+            border-radius: 4px;
+            text-align: left;
+            font-family: monospace;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>¡Autenticación Exitosa!</h1>
+    
+    <div class="welcome-message">
+        <p>¡Hola, {{ user }}!</p>
+        <p>Te has logueado con {{ provider }}.</p>
+    </div>
+    
+    <a href="{{ url_for('logout') }}" class="logout-button">Cerrar Sesión</a>
+    
+    {% if debug_info %}
+    <div class="debug-info">
+        <h3>Información de depuración:</h3>
+        <ul>
+            <li>Claves de sesión: {{ debug_info.session_keys }}</li>
+            <li>Proveedor: {{ debug_info.provider }}</li>
+            <li>ID de usuario: {{ debug_info.user_id }}</li>
+        </ul>
+    </div>
+    {% endif %}
+</body>
+</html>

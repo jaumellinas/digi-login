@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error de Autenticación</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #d32f2f;
+        }
+        .error-container {
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #ffebee;
+            border-radius: 5px;
+            border-left: 5px solid #d32f2f;
+            text-align: left;
+        }
+        .error-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #2196f3;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .back-button:hover {
+            background-color: #0b7dda;
+        }
+        .debug-info {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #f5f5f5;
+            border-radius: 4px;
+            text-align: left;
+            font-family: monospace;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Error de Autenticación</h1>
+    
+    <div class="error-container">
+        <div class="error-title">Se ha producido un error:</div>
+        <p>{{ error }}</p>
+        
+        {% if description %}
+        <div class="error-title">Descripción:</div>
+        <p>{{ description }}</p>
+        {% endif %}
+    </div>
+    
+    {% if error == "Error+getting+user+email+from+external+provider" or description and "email" in description %}
+    <div class="error-container">
+        <div class="error-title">Solución recomendada:</div>
+        <p>Este error generalmente ocurre cuando la autenticación con Azure no puede obtener su correo electrónico. Puede deberse a:</p>
+        <ul>
+            <li>Permisos insuficientes configurados en la aplicación de Azure AD</li>
+            <li>Su cuenta no tiene un correo electrónico asociado o visible</li>
+            <li>Problema de configuración en Supabase</li>
+        </ul>
+        <p>Por favor, verifique que ha aceptado todos los permisos solicitados durante el proceso de inicio de sesión.</p>
+    </div>
+    {% endif %}
+
+    <a href="{{ url_for('index') }}" class="back-button">Volver al inicio</a>
+</body>
+</html>
