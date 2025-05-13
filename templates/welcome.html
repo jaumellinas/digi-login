@@ -3,18 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bienvenido</title>
+    <title>Login exitoso</title>
+    <script src="https://kit.fontawesome.com/c3c63f74a9.js" crossorigin="anonymous"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap');
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: "Inter Tight", sans-serif;
             max-width: 600px;
             margin: 0 auto;
             padding: 20px;
             text-align: center;
         }
+
         h1 {
             color: #333;
         }
+
+        i {
+            margin-right: 5px;
+        }
+
         .welcome-message {
             margin: 30px 0;
             padding: 20px;
@@ -22,6 +31,7 @@
             border-radius: 5px;
             border-left: 5px solid #0078d4;
         }
+
         .logout-button {
             display: inline-block;
             margin-top: 20px;
@@ -32,39 +42,27 @@
             border-radius: 4px;
             font-weight: bold;
         }
+
         .logout-button:hover {
             background-color: #d32f2f;
-        }
-        .debug-info {
-            margin-top: 30px;
-            padding: 15px;
-            background-color: #f5f5f5;
-            border-radius: 4px;
-            text-align: left;
-            font-family: monospace;
-            font-size: 14px;
         }
     </style>
 </head>
 <body>
-    <h1>¡Autenticación Exitosa!</h1>
+    <h1><i class="fa-solid fa-circle-check"></i> ¡Login exitoso!</h1>
     
     <div class="welcome-message">
         <p>¡Hola, {{ user }}!</p>
-        <p>Te has logueado con {{ provider }}.</p>
+
+        {% if provider == "Google" %}
+            <p>Has iniciado sesión con Google.</p>
+        {% elif provider == "GitHub" %}
+            <p>Has iniciado sesión con GitHub.</p>
+        {% elif provider == "Microsoft Azure" %}
+            <p>Has iniciado sesión con Azure.</p>
+        {% endif %}
     </div>
     
-    <a href="{{ url_for('logout') }}" class="logout-button">Cerrar Sesión</a>
-    
-    {% if debug_info %}
-    <div class="debug-info">
-        <h3>Información de depuración:</h3>
-        <ul>
-            <li>Claves de sesión: {{ debug_info.session_keys }}</li>
-            <li>Proveedor: {{ debug_info.provider }}</li>
-            <li>ID de usuario: {{ debug_info.user_id }}</li>
-        </ul>
-    </div>
-    {% endif %}
+    <a href="{{ url_for('logout') }}" class="logout-button"><i class="fa-solid fa-door-open"></i> Cerrar sesión</a>
 </body>
 </html>

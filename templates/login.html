@@ -3,21 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Sesión</title>
+    <title>Iniciar sesión</title>
+    <script src="https://kit.fontawesome.com/c3c63f74a9.js" crossorigin="anonymous"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap');
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: "Inter Tight", sans-serif;
             max-width: 600px;
             margin: 0 auto;
             padding: 20px;
             text-align: center;
         }
+
         h1 {
             color: #333;
         }
+
+        i {
+            margin-right: 5px;
+        }
+
         .login-container {
             margin-top: 40px;
         }
+
         .login-button {
             display: inline-block;
             margin: 10px;
@@ -30,28 +40,35 @@
             font-weight: bold;
             transition: all 0.3s ease;
         }
+
         .login-button:hover {
             background-color: #e0e0e0;
         }
+
         .github {
             background-color: #24292e;
             color: white;
         }
+
         .github:hover {
             background-color: #1b1f23;
         }
+
         .azure {
             background-color: #0078d4;
             color: white;
         }
+
         .azure:hover {
             background-color: #0062ad;
         }
+
         .google {
             background-color: #ffffff;
             color: #757575;
             border: 1px solid #ddd;
         }
+
         .google:hover {
             background-color: #f5f5f5;
         }
@@ -63,14 +80,46 @@
     
     <div class="login-container">
         <a href="{{ auth_urls.github }}" class="login-button github">
-            Iniciar sesión con GitHub
+            <i class="fa-brands fa-github"></i> GitHub
         </a>
         <a href="{{ auth_urls.azure }}" class="login-button azure">
-            Iniciar sesión con Azure
+            <i class="fa-brands fa-windows"></i> Azure
         </a>
         <a href="{{ auth_urls.google }}" class="login-button google">
-            Iniciar sesión con Google
+            <i class="fa-brands fa-google"></i> Google
         </a>
     </div>
+
+    <script>
+        // Procesar el fragmento de la URL si existe
+        if (window.location.hash) {
+            const fragment = window.location.hash.substring(1); // Eliminar el '#'
+            const params = new URLSearchParams(fragment);
+
+            // Extraer los tokens
+            const accessToken = params.get('access_token');
+            const refreshToken = params.get('refresh_token');
+
+            // Enviar los tokens al servidor
+            if (accessToken) {
+                fetch('/auth/callback', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        access_token: accessToken,
+                        refresh_token: refreshToken
+                    })
+                }).then(response => {
+                    if (response.ok) {
+                        window.location.href = '/welcome'; // Redirigir al usuario
+                    } else {
+                        console.error('Error al procesar el login');
+                    }
+                });
+            }
+        }
+    </script>
 </body>
 </html>
